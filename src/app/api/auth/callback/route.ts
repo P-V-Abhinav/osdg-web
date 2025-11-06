@@ -42,7 +42,7 @@ export async function GET(request: NextRequest) {
               window.opener.postMessage({ 
                 type: 'CAS_AUTH_ERROR', 
                 error: 'no-ticket' 
-              }, 'https://' + returnSite);
+              }, 'https://${returnSite}');
               setTimeout(() => window.close(), 2000);
             }
           </script>
@@ -95,7 +95,7 @@ export async function GET(request: NextRequest) {
               window.opener.postMessage({ 
                 type: 'CAS_AUTH_ERROR', 
                 error: 'validation-failed' 
-              }, 'https://' + returnSite);
+              }, 'https://${returnSite}');
               setTimeout(() => window.close(), 2000);
             }
           </script>
@@ -166,11 +166,11 @@ export async function GET(request: NextRequest) {
           
           if (window.opener) {
             // Send data to parent window
-            window.opener.postMessage(userData, 'https://' + returnSite);
+            window.opener.postMessage(userData, 'https://${returnSite}');
             setTimeout(() => window.close(), 1500);
           } else {
             // Fallback: redirect with URL params
-            const url = new URL('https://' + returnSite + '/');
+            const url = new URL('https://${returnSite}/');
             url.searchParams.set('username', ${JSON.stringify(user.username)});
             url.searchParams.set('email', ${JSON.stringify(user.email)});
             url.searchParams.set('casAuth', 'true');
