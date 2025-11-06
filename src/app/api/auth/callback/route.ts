@@ -108,12 +108,40 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  // Success! Redirect back to osdg.in with user data
-  const redirectUrl = new URL(`https://${returnSite}/`);
-  redirectUrl.searchParams.set('username', user.username);
-  redirectUrl.searchParams.set('email', user.email);
-  redirectUrl.searchParams.set('name', user.name);
-  redirectUrl.searchParams.set('casAuth', 'true');
-  
-  return NextResponse.redirect(redirectUrl.toString());
+  // Success! Redirect back with minimal page
+  return new NextResponse(
+    `<!DOCTYPE html>
+    <html>
+      <head>
+        <title>Redirecting...</title>
+        <style>
+          body {
+            margin: 0;
+            background: #000;
+            color: #fff;
+            font-family: system-ui, -apple-system, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+          }
+        </style>
+      </head>
+      <body>
+        <p>Redirecting...</p>
+        <script>
+          const url = new URL('https://${returnSite}/');
+          url.searchParams.set('username', ${JSON.stringify(user.username)});
+          url.searchParams.set('name', ${JSON.stringify(user.name)});
+          url.searchParams.set('email', ${JSON.stringify(user.email)});
+          url.searchParams.set('casAuth', 'true');
+          window.location.href = url.toString();
+        </script>
+      </body>
+    </html>`,
+    {
+      status: 200,
+      headers: { 'Content-Type': 'text/html' },
+    }
+  );
 }
