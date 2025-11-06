@@ -1,8 +1,8 @@
 "use client";
 
 import PhotoAlbum from "react-photo-album";
-import { getEventImages, getEventsMetadata } from "@/app/lib";
-import type { photoData } from "@/app/lib";
+import { getEventImages, getEventsMetadata } from "@/app/lib/lib";
+import type { photoData } from "@/app/lib/lib";
 import { useState, useEffect } from "react";
 
 export default function Events() {
